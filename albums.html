@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="manifest" href="manifest.json">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Albums</title>
+
+    
+</head>
+<body>
+	<button id="createAlbumBtn">Create Album</button>
+
+    <div id="container">
+    </div>
+</body>
+<script type="text/javascript">
+$('#createAlbumBtn').click(function() {
+	let albumName = prompt("Album Name", "New album");
+
+	$.post('http://localhost/photoviewer/createalbum.php', {name: albumName})
+		.done(function(data) {
+			location.reload();
+		});
+});
+</script>
+</html>
+
