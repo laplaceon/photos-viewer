@@ -23,12 +23,14 @@
              <span class="button">Upload photo</span>
              <input type="file" id="file" />
          </div>
+         
+         <div id="container" class="container"></div>
 </body>
 <script type="text/javascript">
     let searchParams = new URLSearchParams(window.location.search);
     let albumkey = searchParams.get('album_id');
     $(document).ready(function() {
-                      $.get("http://localhost/photos-viewer/albums.php?method=getPhotos?album_key=" + albumkey).done(function(data) {
+                      $.get("http://localhost/photos-viewer/albums.php?method=getPhotos&album_key=" + albumkey).done(function(data) {
                                                                                                $("#container").html(data);
                                                                                                });
                       });
