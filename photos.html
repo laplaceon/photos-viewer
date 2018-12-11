@@ -1,0 +1,56 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"
+            ></script>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+        <h1 style="text-align:center">Photos</h1>
+        
+        
+         <div class="custom-file">
+             <span class="button">Upload photo</span>
+             <input type="file" id="file" />
+         </div>
+</body>
+<script type="text/javascript">
+    let searchParams = new URLSearchParams(window.location.search);
+    let albumkey = searchParams.get('album_id');
+    $(document).ready(function() {
+                      $.get("http://localhost/photos-viewer/albums.php?method=getPhotos?album_key=" + albumkey).done(function(data) {
+                                                                                               $("#container").html(data);
+                                                                                               });
+                      });
+                      
+                      function getBase64(file) {
+                          return new Promise((resolve, reject) => {
+                                             const reader = new FileReader();
+                                             reader.readAsDataURL(file);
+                                             reader.onload = () => resolve(reader.result);
+                                             reader.onerror = error => reject(error);
+                                             });
+                      }
+                      
+                      $('#file').change(function(){
+                                        var file = document.querySelector('input[type="file"]').files[0];
+                                        getBase64(file).then(function(data) {
+                                                             $.post("http://localhost/photos-viewer/albums.php?method=addPhoto&album_key=" + albumkey, {data: data})
+                                                                .done(function(res) {
+                                                                      alert(res);
+                                                                      //location.reload();
+                                                                   });
+                                                             });
+                    });
+  </script>
+</html>
